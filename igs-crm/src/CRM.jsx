@@ -1330,8 +1330,14 @@ function BottomNav({page,setPage,currentUser}){
 }
 
 // ─── STORAGE BADGE ────────────────────────────────────────────────────────────
-function StorageBadge({status, syncStatus, page}){
+function StorageBadge({status, syncStatus, page, isMobile}){
   if(page==="client-detail") return null;
+
+  // На мобильном — размещаем над нижней навигацией, не мешаем верхним кнопкам
+  const pos = isMobile
+    ? {position:"fixed", bottom:66, left:"50%", transform:"translateX(-50%)", zIndex:999}
+    : {position:"fixed", top:16, right:16, zIndex:999};
+
   const online = isOnline();
 
   // Определяем что показывать — приоритет: syncStatus > storageStatus
@@ -1345,10 +1351,10 @@ function StorageBadge({status, syncStatus, page}){
   } else if (status === "saved") {
     color = T.green; text = online ? "Сохранено" : "Локально"; dot = T.green;
   } else {
+    // На мобильном показываем только если офлайн — онлайн не занимает место
+    if(isMobile && online) return null;
     return (
-      // Всегда показываем индикатор онлайн-статуса
-      <div style={{position:"fixed",top:16,right:16,zIndex:999,
-        display:"flex",alignItems:"center",gap:6,
+      <div style={{...pos, display:"flex",alignItems:"center",gap:6,
         background:T.surface,borderRadius:8,padding:"5px 10px",
         fontSize:11,fontWeight:500,border:`1px solid ${T.border}`,
         boxShadow:"0 4px 20px rgba(0,0,0,0.3)",color:T.textDim}}>
@@ -1380,8 +1386,7 @@ function StorageBadge({status, syncStatus, page}){
   }, []);
 
   if (fbErr) return (
-    <div style={{position:"fixed",top:16,right:16,zIndex:999,
-      display:"flex",alignItems:"center",gap:6,
+    <div style={{...pos, display:"flex",alignItems:"center",gap:6,
       background:"rgba(220,38,38,0.15)",borderRadius:8,padding:"6px 14px",
       fontSize:11,fontWeight:600,border:"1px solid rgba(220,38,38,0.4)",
       boxShadow:"0 4px 20px rgba(0,0,0,0.4)",color:"#f87171",maxWidth:320,
@@ -1391,8 +1396,7 @@ function StorageBadge({status, syncStatus, page}){
   );
 
   return (
-    <div style={{position:"fixed",top:16,right:16,zIndex:999,
-      display:"flex",alignItems:"center",gap:6,
+    <div style={{...pos, display:"flex",alignItems:"center",gap:6,
       background:T.surface,borderRadius:8,padding:"5px 12px",
       fontSize:11,fontWeight:500,border:`1px solid ${T.border}`,
       boxShadow:"0 4px 20px rgba(0,0,0,0.4)",color}}>
@@ -7216,7 +7220,7 @@ export default function CRM({currentUser:propUser,onShowUserManager:propShowUM,o
   if(!isMobile)return(
     <div style={{display:"flex",minHeight:"100vh",background:T.bg}}>
       <GlobalStyles/>
-      <StorageBadge status={storageStatus} syncStatus={syncStatus} page={page}/>
+      <StorageBadge status={storageStatus} syncStatus={syncStatus} page={page} isMobile={false}/>
       {showNav&&<Sidebar page={page} setPage={setPage} currentUser={currentUser} onLogout={onLogout} onShowUserManager={onShowUserManager}/>}
       <main style={{flex:1,marginLeft:showNav?220:0,padding:"32px 40px",minHeight:"100vh",overflowY:"auto"}}>
         {page==="dashboard"&&<Dashboard {...dashProps} isMobile={false}/>}
@@ -7248,7 +7252,7 @@ export default function CRM({currentUser:propUser,onShowUserManager:propShowUM,o
   return(
     <div style={{background:T.bg,minHeight:"100vh"}}>
       <GlobalStyles/>
-      <StorageBadge status={storageStatus} syncStatus={syncStatus} page={page}/>
+      <StorageBadge status={storageStatus} syncStatus={syncStatus} page={page} isMobile={true}/>
       {page==="dashboard"&&<Dashboard {...dashProps} isMobile/>}
       {page==="clients"&&<div style={{padding:"16px 0 0"}}><ClientList clients={clients} onGoToClient={goToClient} onAddClient={addClient} onDeleteClient={id=>{deleteClient(id);}} isMobile currentUser={currentUser}/></div>}
       {page==="client-detail"&&selectedClient&&<ClientDetail client={selectedClient} onBack={()=>setPage("clients")} onUpdate={data=>updateClient(selectedClient.id,data)} onDelete={()=>{deleteClient(selectedClient.id);setPage("clients");}} onStartKP={(cid,kp)=>startKP(cid||selectedClient.id,kp)} isMobile currentUser={currentUser}/>}
