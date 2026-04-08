@@ -1351,19 +1351,8 @@ function StorageBadge({status, syncStatus, page, isMobile}){
   } else if (status === "saved") {
     color = T.green; text = online ? "Сохранено" : "Локально"; dot = T.green;
   } else {
-    // На мобильном показываем только если офлайн — онлайн не занимает место
-    if(isMobile && online) return null;
-    return (
-      <div style={{...pos, display:"flex",alignItems:"center",gap:6,
-        background:T.surface,borderRadius:8,padding:"5px 10px",
-        fontSize:11,fontWeight:500,border:`1px solid ${T.border}`,
-        boxShadow:"0 4px 20px rgba(0,0,0,0.3)",color:T.textDim}}>
-        <div style={{width:6,height:6,borderRadius:3,
-          background:online?"#4ade80":"#f59e0b",
-          boxShadow:`0 0 6px ${online?"#4ade80":"#f59e0b"}`}}/>
-        {online ? "онлайн" : "офлайн"}
-      </div>
-    );
+    // В idle состоянии — ничего не показываем, не мешаем интерфейсу
+    return null;
   }
 
   // Показываем Firebase ошибку если есть (PERMISSION_DENIED и т.д.)
