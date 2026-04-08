@@ -1,0 +1,51 @@
+{
+  "name": "IGS Outdoor CRM",
+  "short_name": "IGS CRM",
+  "description": "CRM система IGS Outdoor — клиенты, задачи, КП",
+  "start_url": "/?page=trello",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#09090b",
+  "theme_color": "#b8965a",
+  "lang": "ru",
+  "id": "igs-crm-app",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable any" }
+  ],
+  "categories": ["business", "productivity"],
+  "shortcuts": [
+    {
+      "name": "📋 Задачи",
+      "short_name": "Задачи",
+      "description": "Kanban доска задач",
+      "url": "/?page=trello",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "👥 Клиенты",
+      "short_name": "Клиенты",
+      "description": "Список клиентов",
+      "url": "/?page=clients",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "🧮 Новый КП",
+      "short_name": "КП",
+      "description": "Создать коммерческое предложение",
+      "url": "/?page=calculator",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "📅 Встречи",
+      "short_name": "Встречи",
+      "description": "Расписание встреч",
+      "url": "/?page=meetings",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

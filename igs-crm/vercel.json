@@ -1,0 +1,32 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ],
+  "functions": {
+    "api/generate.js":    { "maxDuration": 120 },
+    "api/send-approval.js": { "maxDuration": 60 },
+    "api/gdrive-backup.js": { "maxDuration": 60 },
+    "api/ai-chat.js":     { "maxDuration": 60 },
+    "api/trello.js":      { "maxDuration": 30 },
+    "api/webhook.js":     { "maxDuration": 30 },
+    "api/push-notify.js": { "maxDuration": 30 }
+  },
+  "headers": [
+    {
+      "source": "/sw.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
+        { "key": "Service-Worker-Allowed", "value": "/" }
+      ]
+    },
+    {
+      "source": "/manifest.json",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    }
+  ]
+}

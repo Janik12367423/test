@@ -1,0 +1,10 @@
+{
+  "name": "igs-crm-api",
+  "version": "1.0.0",
+  "dependencies": {
+    "nodemailer": "^6.9.7",
+    "web-push": "^3.6.7",
+    "docx": "^8.2.2",
+    "googleapis": "^137.1.0"
+  }
+}
